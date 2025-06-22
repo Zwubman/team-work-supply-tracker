@@ -16,10 +16,19 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 // Middleware setup
+const allowedOrigins = ['https://team-work-supply-tracker.vercel.app'];
+
 app.use(cors({
-  origin: "https://team-work-supply-tracker.vercel.app", 
-  credentials: true, 
+  origin: (origin, callback) => {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Blocked by CORS'));
+    }
+  },
+  credentials: true
 }));
+
 app.use(express.json());
 
 app.use('/api/users', userRouter);
