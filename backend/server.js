@@ -17,7 +17,7 @@ const PORT = process.env.PORT || 5000;
 
 // Middleware setup
 app.use(cors({
-  origin: "https://team-work-supply-tracker.vercel.app/", 
+  origin: "https://team-work-supply-tracker.vercel.app", 
   credentials: true, 
 }));
 app.use(express.json());
