@@ -30,16 +30,7 @@ const createOutboundMovement = async (
     movedBy: userId,
   });
 
-  //Find all low-stock items
-  // const lowStockItems = await Item.findAll({
-  //   where: {
-  //     quantity: { [Op.lte]: Sequelize.col("threshold") },
-  //   },
-  // });
-
-  // if(!lowStockItems || lowStockItems.length === 0) {
-  //   return { movement, emailAlertSent: false };
-  // }
+ 
   
   const adminUsers = await User.findAll({
     where: { role: "Admin" }, 
