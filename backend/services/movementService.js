@@ -31,23 +31,28 @@ const createOutboundMovement = async (
   });
 
   //Find all low-stock items
-  const lowStockItems = await Item.findAll({
-    where: {
-      quantity: { [Op.lte]: Sequelize.col("threshold") },
-    },
-  });
+  // const lowStockItems = await Item.findAll({
+  //   where: {
+  //     quantity: { [Op.lte]: Sequelize.col("threshold") },
+  //   },
+  // });
 
+  // if(!lowStockItems || lowStockItems.length === 0) {
+  //   return { movement, emailAlertSent: false };
+  // }
+  
   const adminUsers = await User.findAll({
     where: { role: "Admin" }, 
     attributes: ["email"],
   });
 
+
   const adminEmails = adminUsers.map((admin) => admin.email);
 
   let emailAlertSent = false;
-  if (lowStockItems.length > 0 && adminEmails.length > 0) {
+  if (item.quantity <= item.threshold && adminEmails.length > 0) {
     for (const email of adminEmails) {
-      await sendLowStockAlertEmail(email, lowStockItems);
+      await sendLowStockAlertEmail(email, [item]);
     }
     emailAlertSent = true;
   }
